@@ -1,42 +1,34 @@
+#_________PSUEDO CODE__________
+# comments will go here (updated 8/18 @ 1 PM EST)
+# Created by Priscilla and Nico
 
+# WELCOME TO OUR OOP GARAGE 
 
+# there are 25 spots available spots in our parking lot 
+# it costs $10 an hour to park in this garage #
+# if you car is parked for 24 hours or more you will be charged a $100 fine
 
+# OUR CLASSES 
 
+# car class 
+    #car info
+    #track the time we parked at
+    # tracks license plate #'s
+    # make of vehicle 
+    #color of vehicle 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#parking class
+    # counts # of parking spots left 
+    # labeled parking spots 
 
 
 # WELCOME TO OUR GARAGE 
-# welcome to the garage
-# print("\nWelcome to the OOP Car Garage")
-# print("Open in 2023 by Priscilla and Nico")
-# #display the car garage info and prices
-# print("\n\t------------| Hourly fees and fines |-------------")
-# print("\t Hourly fee: $10.00 | TIME STARTS NOW \n\t | IF PARKED OVER 24 HOURS fee is $100.00 | n\t PLEASE PAY BEFORE EXITING GARAGE |")
+print("\nWelcome to the OOP Car Garage")
+print("Opened in August 2023 by Priscilla and Nico")
+#display the car garage info and prices
+print("\n\t------------| Hourly fees and fines |-------------")
+print("\t Hourly fee: $10.00 | TIME STARTS NOW \n\t | IF PARKED OVER 24 HOURS fee is $100.00 | \n\t |  PLEASE PAY BEFORE EXITING GARAGE      |")
 
-
-# #
 class Car():
     def __init__(self, license_plate, make, color):
         self.license_plate = license_plate
@@ -49,39 +41,52 @@ class Car():
 
 class Parking():
 
-    def __init__(self, tickets, parking_spaces, customer_ticket):
-        self.tickets = tickets
-        self.parking_spaces = parking_spaces
-        self.customer_ticket = customer_ticket
+    def __init__(self):
+        self.garage = {'spots' : 25 , 'tickets': 0}
+        self.ticket = {}
+        self.ticketid = ['1A', '2B', '3C', '4D' , '5E', '6F', '7G' , '8H', 
+                         '9I', '10J', '11K', '12L', '13M' , '14N', '15O', '16P',
+                          '17Q','18R','19S','20T','21U' ,'22V', '23W' ,'24X', '25Y']
+        self.cars_added = []
+        total_customers = []
 
     def available_spots(self):
-        print(f"\nParking spots available: {self.parking_spaces}")
+        print(f"\nParking spots available: {self.garage['spots']}")
 
-    def take_ticket():
-        self.customer_ticket += 1
-        self.tickets -= 1
-        self.parking_spaces -= 1
-
-    def pay_ticket():
-        pass
-
-    def return_ticket():
-        pass
+    def take_ticket(self, car):
+        self.garage['spots'] -= 1
+        self.garage['tickets'] += 1
+        self.ticketid = ['1A', '2B', '3C', '4D' , '5E', '6F', '7G' , '8H', 
+                         '9I', '10J', '11K', '12L', '13M' , '14N', '15O', '16P',
+                          '17Q','18R','19S','20T','21U' ,'22V', '23W' ,'24X', '25Y']
+    
+        return self.garage
 
 
-print("\nWelcome to the OOP Car Garage")
-print("Open in 2023 by Priscilla and Nico")
-#display the car garage info and prices
-print("\n\t------------| Hourly fees and fines |-------------")
-print("\t Hourly fee: $10.00 | TIME STARTS NOW \n\t | IF PARKED OVER 24 HOURS fee is $100.00 | \n\t |PLEASE PAY BEFORE EXITING GARAGE |")
+ 
 
-p = Parking(25, 25, 0)
+
+    # def add_cars(self,car):
+
+    # def pay_ticket():
+    #     pass  
+
+
+    def return_ticket(self):
+        self.garage['spots'] += 1
+        self.garage['tickets'] -= 1
+        return f"Thank You, have a nice day"
+
+p = Parking()
 p.available_spots()
 lp = input("Enter your license plate: ").upper()
 make = input("Enter make of car: ").title()
 color = input("Enter color of car: ").lower()
 c = Car(lp, make, color)
 c.print_car()
+
+
+print(p.take_ticket())
 
 
 
