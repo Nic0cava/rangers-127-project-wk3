@@ -25,68 +25,117 @@
 # WELCOME TO OUR GARAGE 
 print("\nWelcome to the OOP Car Garage")
 print("Opened in August 2023 by Priscilla and Nico")
-#display the car garage info and prices
+# display the car garage info and prices
 print("\n\t------------| Hourly fees and fines |-------------")
 print("\t Hourly fee: $10.00 | TIME STARTS NOW \n\t | IF PARKED OVER 24 HOURS fee is $100.00 | \n\t |  PLEASE PAY BEFORE EXITING GARAGE      |")
+
 
 class Car():
     def __init__(self, license_plate, make, color):
         self.license_plate = license_plate
         self.make = make
         self.color = color
+        self.ticketid = ""
+
+
 
     def print_car(self):
         print("Car info:")
         print(f"License Plate: {self.license_plate}, Make: {self.make}, Color: {self.color}")
 
+
 class Parking():
 
+        #total_customers = []
+
     def __init__(self):
-        self.garage = {'spots' : 25 , 'tickets': 0}
+        self.garage = {'spots': 25, 'tickets': 0}
         self.ticket = {}
-        self.ticketid = ['1A', '2B', '3C', '4D' , '5E', '6F', '7G' , '8H', 
-                         '9I', '10J', '11K', '12L', '13M' , '14N', '15O', '16P',
-                          '17Q','18R','19S','20T','21U' ,'22V', '23W' ,'24X', '25Y']
-        self.cars_added = []
-        total_customers = []
+        self.ticketid = ['1A', '2B', '3C', '4D' , '5E', '6F', '7G' , '8H',
+                '9I', '10J', '11K', '12L', '13M' , '14N', '15O', '16P',
+                '17Q','18R','19S','20T','21U' ,'22V', '23W' ,'24X', '25Y']
+        
 
     def available_spots(self):
         print(f"\nParking spots available: {self.garage['spots']}")
 
     def take_ticket(self, car):
+        if self.garage['spots'] == 0:
+            print(
+                "Oops! Sorry, there are currently no parking spots available. Please come by later!")
+            return
+
         self.garage['spots'] -= 1
         self.garage['tickets'] += 1
-        self.ticketid = ['1A', '2B', '3C', '4D' , '5E', '6F', '7G' , '8H', 
-                         '9I', '10J', '11K', '12L', '13M' , '14N', '15O', '16P',
-                          '17Q','18R','19S','20T','21U' ,'22V', '23W' ,'24X', '25Y']
-    
-        return self.garage
-
-
- 
-
+        self.ticket.update({self.garage['tickets']: False})
+        id = self.ticketid.pop()
+        car.ticketid = id
+        print(f"Your ticket id is: {car.ticketid}")
 
     # def add_cars(self,car):
 
     # def pay_ticket():
-    #     pass  
+    #     pass
 
+    def return_ticket(self, car):
+        if self.garage['spots'] == 25:
+            print(
+                "Oops! Looks like you are the first one to arrive! Welcome, please enter 'E' to enter garage: ")
+            return
 
-    def return_ticket(self):
+        hours = int(input("Input hours parked: "))
+        cost = hours * 10
+        while True:
+
+            if hours >= 24:
+                fine = int(input(f"You have exceeded the 24+ hour rule. Please pay the $100 FINE here: "))
+                if fine != 100:
+                    print("Incorrect FINE amount. Please try again")
+                else:
+                    break
+            else:
+                break
+
+        while True:
+
+            payment = int(input(f"Your total payment is ${cost}. Enter payment here: "))
+
+            if payment == cost:
+                self.ticket.update({self.garage['tickets']: True})
+                break
+            else:
+                print("Incorrect payment amount. Please try again")
+
         self.garage['spots'] += 1
         self.garage['tickets'] -= 1
-        return f"Thank You, have a nice day"
+        self.ticketid.append(car.ticketid)
+        print(self.ticket)
+        print(self.garage)
+        print(f"Thank you, have a nice day!")
+
 
 p = Parking()
 p.available_spots()
-lp = input("Enter your license plate: ").upper()
-make = input("Enter make of car: ").title()
-color = input("Enter color of car: ").lower()
-c = Car(lp, make, color)
-c.print_car()
+while True:
 
-
-print(p.take_ticket())
+    status = input(
+        "Hello, are you entering(E) or leaving(L) parking garage? (Enter 'E' or 'L'): ").upper()
+    if status == 'E':
+        lp = input("Enter your license plate: ").upper()
+        make = input("Enter make of car: ").title()
+        color = input("Enter color of car: ").lower()
+        c = Car(lp, make, color)
+        c.print_car()
+        p.take_ticket(c)
+    elif status == 'L':
+        p.return_ticket(c)
+    elif status == 'END': #admin control for ending code
+        print("System down for maintenance")
+        break
+    elif status == 'STATUS': #admin control for viewing parking spots available
+        p.available_spots()
+    else:
+        print("Invalid response. Please try again: ")
 
 
 
