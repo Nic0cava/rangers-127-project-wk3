@@ -35,28 +35,31 @@ class Car():
         self.license_plate = license_plate
         self.make = make
         self.color = color
+        self.ticketid = ""
+
+
 
     def print_car(self):
         print("Car info:")
-        print(
-            f"License Plate: {self.license_plate}, Make: {self.make}, Color: {self.color}")
+        print(f"License Plate: {self.license_plate}, Make: {self.make}, Color: {self.color}")
 
 
 class Parking():
 
+        #total_customers = []
+
     def __init__(self):
         self.garage = {'spots': 25, 'tickets': 0}
         self.ticket = {}
-        # self.ticketid = ['1A', '2B', '3C', '4D' , '5E', '6F', '7G' , '8H',
-        #                  '9I', '10J', '11K', '12L', '13M' , '14N', '15O', '16P',
-        #                   '17Q','18R','19S','20T','21U' ,'22V', '23W' ,'24X', '25Y']
-        # self.cars_added = []
-        # total_customers = []
+        self.ticketid = ['1A', '2B', '3C', '4D' , '5E', '6F', '7G' , '8H',
+                '9I', '10J', '11K', '12L', '13M' , '14N', '15O', '16P',
+                '17Q','18R','19S','20T','21U' ,'22V', '23W' ,'24X', '25Y']
+        
 
     def available_spots(self):
         print(f"\nParking spots available: {self.garage['spots']}")
 
-    def take_ticket(self):
+    def take_ticket(self, car):
         if self.garage['spots'] == 0:
             print(
                 "Oops! Sorry, there are currently no parking spots available. Please come by later!")
@@ -65,15 +68,16 @@ class Parking():
         self.garage['spots'] -= 1
         self.garage['tickets'] += 1
         self.ticket.update({self.garage['tickets']: False})
-        print(self.ticket)
-        print(self.garage)
+        id = self.ticketid.pop()
+        car.ticketid = id
+        print(f"Your ticket id is: {car.ticketid}")
 
     # def add_cars(self,car):
 
     # def pay_ticket():
     #     pass
 
-    def return_ticket(self):
+    def return_ticket(self, car):
         if self.garage['spots'] == 25:
             print(
                 "Oops! Looks like you are the first one to arrive! Welcome, please enter 'E' to enter garage: ")
@@ -84,8 +88,7 @@ class Parking():
         while True:
 
             if hours >= 24:
-                fine = int(
-                    input(f"You have exceeded the 24+ hour rule. Please pay the $100 FINE here: "))
+                fine = int(input(f"You have exceeded the 24+ hour rule. Please pay the $100 FINE here: "))
                 if fine != 100:
                     print("Incorrect FINE amount. Please try again")
                 else:
@@ -95,8 +98,7 @@ class Parking():
 
         while True:
 
-            payment = int(
-                input(f"Your total payment is ${cost}. Enter payment here: "))
+            payment = int(input(f"Your total payment is ${cost}. Enter payment here: "))
 
             if payment == cost:
                 self.ticket.update({self.garage['tickets']: True})
@@ -106,6 +108,7 @@ class Parking():
 
         self.garage['spots'] += 1
         self.garage['tickets'] -= 1
+        self.ticketid.append(car.ticketid)
         print(self.ticket)
         print(self.garage)
         print(f"Thank you, have a nice day!")
@@ -123,9 +126,9 @@ while True:
         color = input("Enter color of car: ").lower()
         c = Car(lp, make, color)
         c.print_car()
-        p.take_ticket()
+        p.take_ticket(c)
     elif status == 'L':
-        p.return_ticket()
+        p.return_ticket(c)
     elif status == 'END': #admin control for ending code
         print("System down for maintenance")
         break
